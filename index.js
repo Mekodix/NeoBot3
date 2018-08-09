@@ -21,7 +21,7 @@ bot.on('message', message => {
         message.channel.send(
             {embed: {
     color: 0x00FF00,
-    title `Chaine Youtube`,
+    title "Chaine Youtube",
     fields: [{
         name: "Chaine De NeoflasH",
         value: ` https://www.youtube.com/channel/UCDBIzgcBjtlGjnj6jkbZsnA?`
