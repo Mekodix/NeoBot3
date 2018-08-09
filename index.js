@@ -15,8 +15,9 @@ bot.on('message', message => {
     if (message.content === prefix + "help"){
         message.channel.sendMessage("**__Aide:__** \n -__help:__ afficher ce message \n -__youtube:__ afficher la chaîne youtube de NeoflasH");
     }
+});
 bot.on('message', message => {
     if (message.content === prefix + "youtube"){
         message.channel.sendMessage("Chaîne Youtube de NeoflasH : https://www.youtube.com/channel/UCDBIzgcBjtlGjnj6jkbZsnA?");
     }
-})
+});
