@@ -31,5 +31,3 @@ bot.on('message', message => {
         text: "©NeoflasH"
       }
 }});
-    }
-});
