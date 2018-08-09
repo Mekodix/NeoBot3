@@ -18,6 +18,18 @@ bot.on('message', message => {
 });
 bot.on('message', message => {
     if (message.content === prefix + "youtube"){
-        message.channel.sendMessage("Chaîne Youtube de NeoflasH : https://www.youtube.com/channel/UCDBIzgcBjtlGjnj6jkbZsnA?");
+        msg.channel.send({embed {
+    color: 0x00FF00,
+    title `Chaine Youtube`
+    fields: [{
+        name: "Chaine De NeoflasH",
+        value: ` https://www.youtube.com/channel/UCDBIzgcBjtlGjnj6jkbZsnA?`
+    }
+    ],
+    timestamp: new Date(),
+      footer: {
+        text: "©NeoflasH"
+      }
+}});
     }
 });
