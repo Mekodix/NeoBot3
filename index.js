@@ -18,7 +18,7 @@ bot.on('message', message => {
 });
 bot.on('message', message => {
     if (message.content === prefix + "youtube"){
-        msg.channel.send({embed {
+        message.channel.send({embed {
     color: 0x00FF00,
     title `Chaine Youtube`
     fields: [{
