@@ -13,9 +13,23 @@ bot.login(process.env.TOKEN);
 
 bot.on('message', message => {
     if (message.content === prefix + "help"){
-        message.channel.sendMessage("**__Aide:__** \n \n -__help:__ afficher ce message \n -__youtube:__ afficher la chaîne youtube de NeoflasH");
-    }
-});
+        message.channel.send(
+            {embed: {
+                color: 0x00FFFF,
+                title: "Help",
+                fields: [{
+                name: "Aide:",
+                value: `-help: affiche cette page \n -youtube: affiche la chaîne youtube de NeoflasH`
+                }
+                ],
+                timestamp: new Date(),
+                footer: {
+                text: "©NeoflasH"
+            }
+        }
+    });
+}})
+
 bot.on('message', message => {
     if (message.content === prefix + "youtube"){
         message.channel.send(
