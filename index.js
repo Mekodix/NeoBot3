@@ -18,7 +18,7 @@ bot.on('message', message => {
                 color: 0x00FFFF,
                 title: "Help",
                 fields: [{
-                name: "Aide:",
+                name: "Aide: :moi:",
                 value: `-help: affiche cette page \n -youtube: affiche la chaîne youtube de NeoflasH`
                 }
                 ],
