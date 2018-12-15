@@ -48,3 +48,24 @@ bot.on('message', message => {
         }
     });
 }})
+
+bot.on('message', message => {
+    let command = message.content.split("")[0];
+    const args = message.content.slice(prefix.length).split(/ +/);
+    command = args.shift().toLowerCase();
+    
+    if (command === "kick") {
+        let modRole = message.guild.roles.find("name", "Helper")
+        if(!message.member.roles.has(modRole.id)) {
+            return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
+        }
+        if(mesage.mentions.users.size === 0) {
+            return message.reply("**Merci de mentionner l'utilisateur à expulser !**").catch(console.error);
+        }
+        let kickMember = message.guild.member(message.mentions.users.first());
+        if(!kickMember) {
+            return message.reply("**Cet utilisateur est introuvable ou il m'est impossible de l'expulser.**")
+        }
+        if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
+            return message.reply("**Je n'ai pas la permission de KICK_MEMBERS.")
+            
