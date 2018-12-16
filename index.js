@@ -71,9 +71,20 @@ bot.on('message', message => {
         }
         kickMember.kick().then(member => {
             message.reply(`**${member.user.username} a bien été expulsé du serveur !**`).catch(console.error);
-            message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été expulsé du serveur par **&{message.author.username}**`)
+            message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été expulsé du serveur par ${message.author.username}**`)
         }).catch(console.error)
-            
+    
     }
-}
-            
+
+    if (command === "ban") {
+        let modRole = message.guild.roles.find("name", "Modérateur")
+        if(!message.member.roles.has(modRole.id)) {
+           return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
+        }
+        const member = message.mentions.members.first();
+        if (!member) return message.reply("**Merci de mentionner l'utilisateur à bannir !**");
+        member.ban().then(member => {
+            message.reply(`**${member.user.username} a bien été banni du serveur !**`).catch(console.error);
+            message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été banni du serveur par ${message.author.username}**`)
+        }).catch(console.error)
+}})
