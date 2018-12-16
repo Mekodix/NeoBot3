@@ -74,5 +74,5 @@ bot.on('message', message => {
             message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été expulsé du serveur par **&{message.author.username}**`)
         }).catch(console.error)
             
-}
+    }
             
