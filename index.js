@@ -75,4 +75,5 @@ bot.on('message', message => {
         }).catch(console.error)
             
     }
+}
             
