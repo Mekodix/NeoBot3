@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
-const prefix = ("*")
+const prefix = ("*");
 
 bot.on('ready', function() {
+    bot.user.setGame("*help pour plus d'informations");
     console.log("Connecté");
 });
 
@@ -87,4 +88,3 @@ bot.on('message', message => {
             message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été banni du serveur par ${message.author.username}**`)
         }).catch(console.error)
 }})
-
