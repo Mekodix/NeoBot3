@@ -1,14 +1,13 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
-var prefix = ("*")
+const prefix = ("*")
 
 bot.on('ready', function() {
-    bot.user.setGame("*help pour plus d'informations");
-    console.log("Connected");
+    console.log("Connecté");
 });
 
-bot.login(process.env.TOKEN);
+bot.login("process.env.TOKEN");
 
 
 bot.on('message', message => {
@@ -53,13 +52,13 @@ bot.on('message', message => {
     let command = message.content.split("")[0];
     const args = message.content.slice(prefix.length).split(/ +/);
     command = args.shift().toLowerCase();
-    
+
     if (command === "kick") {
-        let modRole = message.guild.roles.find("name", "Helper")
+        let modRole = message.guild.roles.find("name", "Helper");
         if(!message.member.roles.has(modRole.id)) {
             return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
         }
-        if(mesage.mentions.users.size === 0) {
+        if(message.mentions.users.size < 1) {
             return message.reply("**Merci de mentionner l'utilisateur à expulser !**").catch(console.error);
         }
         let kickMember = message.guild.member(message.mentions.users.first());
@@ -77,7 +76,7 @@ bot.on('message', message => {
     }
 
     if (command === "ban") {
-        let modRole = message.guild.roles.find("name", "Modérateur")
+        let modRole = message.guild.roles.find("name", "Modérateur");
         if(!message.member.roles.has(modRole.id)) {
            return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
         }
@@ -88,3 +87,4 @@ bot.on('message', message => {
             message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été banni du serveur par ${message.author.username}**`)
         }).catch(console.error)
 }})
+
