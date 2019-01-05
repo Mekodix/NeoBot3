@@ -1,86 +1,61 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
+const client = new Discord.Client();
 
-const prefix = ("*");
+var prefix = ("*");
 
-bot.on('ready', function() {
-    bot.user.setActivity("*help pour plus d'informations");
+client.on('ready', function() {
+    client.user.setGame("*help pour plus d'informations");
     console.log("Connecté");
 });
 
-bot.login(process.env.TOKEN);
+client.login(process.env.TOKEN);
 
+client.on('message', message => {
 
-bot.on('message', message => {
-    if (message.content === prefix + "help"){
-        message.channel.send(
-            {embed: {
-                color: 0x00FFFF,
-                title: "Help",
-                fields: [{
-                name: "Aide: <:moi:510922618770030605>",
-                value: `-help: affiche cette page \n -youtube: affiche la chaîne youtube de NeoflasH`
-                }
-                ],
-                timestamp: new Date(),
-                footer: {
-                text: "©NeoflasH"
-            }
-        }
-    });
-}})
-
-bot.on('message', message => {
-    if (message.content === prefix + "youtube"){
-        message.channel.send(
-            {embed: {
-                color: 0x00FF00,
-                title: "Youtube",
-                fields: [{
-                name: "Chaine De NeoflasH",
-                value: ` https://www.youtube.com/channel/UCDBIzgcBjtlGjnj6jkbZsnA?`
-                }
-                ],
-                timestamp: new Date(),
-                footer: {
-                text: "©NeoflasH"
-            }
-        }
-    });
-}})
-
-bot.on('message', message => {
-    let command = message.content.split(" ")[0];
-    command = command.slice(prefix.length)
-    const args = message.content.slice(prefix.length).split(/ +/);
-    command = args.shift().toLowerCase();
-
-    if (command === "kick") {
-        let modRole = message.guild.roles.find("name", "Helper");
-        if(!message.member.permissions.has("KICK_MEMBERS")) return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
-        if (!message.guild.member(bot.user).hasPermission('KICK_MEMBERS')) return message.reply("Désolé, je n'ai pas la permission d'effectuer cette commande. J'ai besoin de KICK_MEMBERS. :x:").catch(console.error);
-        if(message.mentions.users.size < 1) return message.reply("**Merci de mentionner l'utilisateur à expulser !**").catch(console.error);
-        let user = message.guild.member(message.mentions.users.first());
-        if (user.highestRole.position >= message.member.highestRole.position) return message.reply("Je ne peux pas exclure cette personne. Elle a un rôle supérieur ou égal au votre. :x:");
-        let kickMember = message.guild.member(message.mentions.users.first());
-        if(!kickMember) return message.reply("**Cet utilisateur est introuvable ou il m'est impossible de l'expulser.**");
-        if(!message.guild.member(bot.user).hasPermission('KICK_MEMBERS')) return message.reply("**Je n'ai pas la permission de KICK_MEMBERS.").catch(console.error);
-        kickMember.kick().then(member => {
-            message.reply(`**${member.user.username} a bien été expulsé du serveur !**`).catch(console.error);
-        let modlog = message.guild.channels.find("name", "『💾』logs");
-            if (!modlog) return;
-            return bot.channels.get(modlog.id).send(`**${member.user.username} a été expulsé du serveur par ${message.author.username}**`);
-        }).catch(console.error)
-    
+    if (message.content === prefix + "help") {
+        var help_embed = new Discord.RichEmbed()
+        .setColor("#33FFCC")
+        .setTitle("Aide <:moi:510922618770030605>")
+        .setDescription("Voici toutes mes commandes disponibles :")
+        .addField("Help", "Affiche les commandes du bot")
+        .addField("Infos", "Affiche les informations sur le bot et le serveur")
+        .setFooter("Menu d'aide")
+        message.channel.sendMessage(help_embed);
+        console.log("Un utilisateur a effectué la commande d'aide")
     }
 
-    if (command === "ban") {
-        let modRole = message.guild.roles.find("name", "Modérateur");
-        if(!message.member.permissions.has("BAN_MEMBERS")) return message.reply("**Tu n'as pas les permissions suffisantes !**").catch(console.error);
-        const member = message.mentions.members.first();
-        if (!member) return message.reply("**Merci de mentionner l'utilisateur à bannir !**");
-        member.ban().then(member => {
-            message.reply(`**${member.user.username} a bien été banni du serveur !**`).catch(console.error);
-            message.guild.channels.find("name", "『💾』logs").send(`**${member.user.username} a été banni du serveur par ${message.author.username}**`)
-        }).catch(console.error)
-}})
+    if(message.content === prefix + "infos") {
+        var info_embed = new Discord.RichEmbed()
+        .setColor("#33FFCC")
+        .setTitle("Voici les informations sur moi et le serveur :")
+        .addField("Nom :", `${client.user.tag}`, true)
+        .addField("Tag du bot :", `#${client.user.discriminator}`)
+        .addField("ID :", `${client.user.id}`)
+        .addField("Nombre de membres", message.guild.members.size)
+        .addField("Nombre de catégories et de salons", message.guild.channels.size)
+        .setFooter("Informations")
+        message.channel.sendMessage(info_embed)
+        console.log("Un utilisateur a effectué la commande d'infos")
+
+    }
+
+    if(message.content.startsWith(prefix + "kick")) {
+        if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.channel.send("Vous n'avez pas les permissions siffisantes !");
+        
+        if(message.mentions.users.size === 0) {
+            return message.channel.send("Vous devez mentionner un utilisateur !")
+        }
+
+        var kick = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+
+        if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) {
+            return message.channel.send("Je n'ai pas les permissions suffisantes !")
+        }
+
+        kick.kick().then(member => {
+            message.channel.send(`**${member.user.username} a bien été kick du serveur par ${message.author.username} !**`);
+        });
+
+    }
+
+});
